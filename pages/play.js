@@ -1,17 +1,12 @@
-import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { createGlobalState, useLocalStorage } from "react-use";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import shuffle from "just-shuffle";
 import splitAt from "just-split-at";
 import remove from "just-remove";
 import Link from "next/link";
+import Players from "../public/data/players.json";
 
 import basketball from "../public/assets/basketball-ball.png";
-import fireball from "../public/assets/fireball.png";
-import promote from "../public/assets/promote.png";
-import logo from "../public/assets/basketball-logo.png";
 import jerseyWhite from "../public/assets/basketball-jersey-white.png";
 import jerseyBlack from "../public/assets/basketball-jersey-black.png";
 import basketballPlayers from "../public/assets/basketball-players.png";
@@ -19,32 +14,18 @@ import basketballShooter from "../public/assets/shooting.png";
 import basketballStrong from "../public/assets/stand.png";
 
 export default function Home() {
-  const router = useRouter();
-  const [user, setUser] = useState("");
+  let normalPlayers = Players.normalPlayers;
+  let weightedPlayers = Players.weightedPlayers;
+  let shooterPlayers = Players.shooterPlayers;
 
-  let regularPlayers = [
-    "Jerry",
-    "Tom",
-    "周苏杭",
-    "李浩华",
-    "陈伟",
-    "Fake",
-    "Dong",
-    "邓恺",
-    "Terence",
-    "陈智",
-  ];
-  let weightedPlayers = ["William", "Erwin", "Steven"];
-  let shooterPlayers = ["Xyu", "Jacky"];
-
-  const [regularPool, setRegularPool] = useState(regularPlayers);
+  const [normalPool, setNormalPool] = useState(normalPlayers);
   const [weightedPool, setWeightedPool] = useState(weightedPlayers);
   const [shooterPool, setShooterPool] = useState(shooterPlayers);
   const [teamBlack, setTeamBlack] = useState([]);
   const [teamWhite, setTeamWhite] = useState([]);
 
   function pickTeam() {
-    let shuffled = shuffle(regularPool);
+    let shuffled = shuffle(normalPool);
     let team = splitAt(shuffled, shuffled.length / 2);
     let team1 = team[1];
     let team2 = team[0];
@@ -77,11 +58,11 @@ export default function Home() {
     setTeamWhite(team2);
   }
 
-  function toggleRegularPlayer(name) {
-    if (regularPool.includes(name)) {
-      setRegularPool(remove(regularPool, [name]));
+  function toggleNormalPlayer(name) {
+    if (normalPool.includes(name)) {
+      setNormalPool(remove(normalPool, [name]));
     } else {
-      setRegularPool([...regularPool, name]);
+      setNormalPool([...normalPool, name]);
     }
   }
 
@@ -183,7 +164,7 @@ export default function Home() {
             <div className="mb-2">
               <h2>小弟</h2>
               <div className="grid grid-cols-3 gap-1">
-                {regularPlayers.map((name) => {
+                {normalPlayers.map((name) => {
                   return (
                     <label
                       className="label cursor-pointer justify-start"
@@ -194,7 +175,7 @@ export default function Home() {
                         className="checkbox checkbox-primary mr-2"
                         value={name}
                         defaultChecked={true}
-                        onChange={(e) => toggleRegularPlayer(name)}
+                        onChange={(e) => toggleNormalPlayer(name)}
                       />
                       <span className="label-text">{name}</span>
                     </label>

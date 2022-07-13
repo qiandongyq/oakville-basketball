@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "dayjs": "^1.11.3",
+    "firebase-admin": "^11.0.0",
     "just-remove": "^3.0.1",
     "just-shuffle": "^4.0.1",
     "just-split-at": "^3.0.1",

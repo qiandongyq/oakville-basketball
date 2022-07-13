@@ -1,0 +1,31 @@
+{
+  "normalPlayers": [
+    "Jerry",
+    "Tom",
+    "周苏杭",
+    "李浩华",
+    "陈伟",
+    "Fake",
+    "Dong",
+    "邓恺",
+    "Terence",
+    "陈智"
+  ],
+  "weightedPlayers": ["William", "Erwin", "Steven"],
+  "shooterPlayers": ["Xyu", "Jacky"],
+  "regularPlayers": [
+    "周苏杭",
+    "William",
+    "Steven",
+    "Jerry",
+    "Fake",
+    "Terence",
+    "Tom",
+    "Xyu",
+    "陈伟",
+    "Jacky",
+    "Dong",
+    "陈智",
+    "邓恺"
+  ]
+}

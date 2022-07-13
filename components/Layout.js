@@ -12,7 +12,7 @@ export default function Layout({ children }) {
       </Head>
 
       <main className="max-w-screen-md mx-auto min-h-screen px-3 pt-8">
-        <div className="mb-10">
+        <div className="mb-5">
           <div className="flex justify-center mb-3">
             <Image src={logo} alt="logo" />
           </div>
