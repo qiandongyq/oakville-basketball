@@ -54,8 +54,6 @@ export default function Home() {
     getGames();
   }, []);
 
-  console.log(nextGame);
-
   if (!nextGame) return null;
 
   return (
