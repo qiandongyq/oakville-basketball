@@ -134,8 +134,8 @@ export default function Home() {
         </div>
       </section>
       <section className="mb-10 grid grid-cols-2 gap-5">
-        <button className="btn btn-accent w-full">常规点这里参加</button>
-        <button className="btn btn-secondary">Drop In 点这里参加</button>
+        <button className="btn btn-accent w-full">常规参加</button>
+        <button className="btn btn-secondary">Drop In 参加</button>
       </section>
       <section className="mb-5">
         <div className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
