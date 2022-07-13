@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { suseState } from "react";
 
 export default function Join() {
   const [userName, setUserName] = useState("");
