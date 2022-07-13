@@ -133,9 +133,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="flex justify-between mb-10">
-        <button className="btn btn-accent">点击参加下次活动</button>
-        <button className="btn btn-secondary">Drop In 点这里</button>
+      <section className="mb-10 grid grid-cols-2 gap-5">
+        <button className="btn btn-accent w-full">常规点这里参加</button>
+        <button className="btn btn-secondary">Drop In 点这里参加</button>
       </section>
       <section className="mb-5">
         <div className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
