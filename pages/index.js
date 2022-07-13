@@ -238,7 +238,7 @@ export default function Home() {
           </div>
         </div>
       </section> */}
-      <section className="w-full text-center">
+      <section className="w-full text-center mb-10">
         <Link href="/dropin">
           <a className="link link-accent">Drop In History</a>
         </Link>
