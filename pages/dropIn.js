@@ -6,10 +6,6 @@ import gamesApi from "./api/games";
 dayjs.extend(localizedFormat);
 
 export default function DropIn({ pastGames }) {
-  const total = pastGames.reduce(
-    (acc, curr) => (acc += curr.dropIn.length * 15),
-    0
-  );
   return (
     <div className="">
       <h1 className="text-accent mb-5"></h1>
