@@ -24,13 +24,8 @@ export default function Home() {
   const [nextGame, setNextGame] = useState(null);
 
   let regularPlayers = Players.regularPlayers;
-
-  // let regularPool = regularPlayers;
-  // let weightedPool = weightedPlayers;
-  // let shooterPool = shooterPlayers;
-
-  let teamBlack = [];
-  let teamWhite = [];
+  let weightedPlayers = Players.weightedPlayers;
+  let shooterPlayers = Players.shooterPlayers;
 
   useEffect(() => {
     let userName = localStorage.getItem("obc-user");
@@ -41,18 +36,47 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    const getGames = async () => {
+  async function getAllGames() {
+    try {
       const resp = await fetch("/api/games");
       const data = await resp.json();
+      return data.pastGames;
+    } catch (err) {
+      // DO NOTHING
+    }
+  }
 
-      let nextGame = data.pastGames.find((game) => {
-        return dayjs(game.date).isSame(dayjs().weekday(5), "day");
-      });
+  function getNextGame(games) {
+    return games.find((game) => {
+      return dayjs(game.date).isSame(dayjs().weekday(5), "day");
+    });
+  }
+
+  useEffect(() => {
+    const getGame = async () => {
+      const games = await getAllGames();
+      let nextGame = getNextGame(games);
       setNextGame(nextGame);
     };
-    getGames();
+    getGame();
   }, []);
+
+  async function handleJoin() {
+    try {
+      const type = regularPlayers.includes(user) ? "regular" : "dropIn";
+      await fetch("/api/join", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user, type, id: nextGame.id }),
+      });
+
+      setNextGame({ ...nextGame, [type]: [...nextGame[type], user] });
+    } catch (err) {
+      // DO NOTHING
+    }
+  }
 
   if (!nextGame) return null;
 
@@ -82,12 +106,12 @@ export default function Home() {
               <Image width={24} height={24} src={jerseyBlack} alt="tshirt" />
             </div>
             <div className="bg-white rounded-full px-1 flex text-primary">
-              <span className="text-xs">{teamBlack.length}</span>
+              <span className="text-xs">{nextGame?.teamBlack?.length}</span>
             </div>
           </div>
           <div className="p-3 bg-base-100 m-0.5 rounded-xl flex-1 min-h-16 overflow-hidden">
             <ul>
-              {teamBlack.map((name) => {
+              {nextGame?.teamBlack?.map((name) => {
                 let icon = weightedPlayers.includes(name)
                   ? basketballStrong
                   : shooterPlayers.includes(name)
@@ -110,12 +134,12 @@ export default function Home() {
               <Image width={24} height={24} src={jerseyWhite} alt="tshirt" />
             </div>
             <div className="bg-black rounded-full border-black px-1 flex text-white">
-              <span className="text-xs">{teamWhite.length}</span>
+              <span className="text-xs">{nextGame?.teamWhite?.length}</span>
             </div>
           </div>
           <div className="p-3 bg-base-100 m-0.5 rounded-xl flex-1 overflow-hidden">
             <ul>
-              {teamWhite.map((name) => {
+              {nextGame?.teamWhite?.map((name) => {
                 let icon = weightedPlayers.includes(name)
                   ? basketballStrong
                   : shooterPlayers.includes(name)
@@ -133,10 +157,22 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="mb-10 grid grid-cols-2 gap-5">
-        <button className="btn btn-accent w-full">常规参加</button>
-        <button className="btn btn-secondary">Drop In 参加</button>
-      </section>
+      {!(
+        nextGame?.regular.includes(user) || nextGame?.dropIn?.includes(user)
+      ) ? (
+        <section className="mb-10">
+          <button
+            className="btn btn-accent w-full"
+            onClick={() => handleJoin("regular")}
+          >
+            点击参加下次活动
+          </button>
+        </section>
+      ) : (
+        <div className="text-center mb-5">
+          <h1 className="text-secondary">已参加</h1>
+        </div>
+      )}
       <section className="mb-5">
         <div className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
           <input type="checkbox" />
@@ -150,7 +186,7 @@ export default function Home() {
             <div className="flex items-center">
               <h1 className="mx-2">确认参加人员名单</h1>
               <div className="badge badge-primary">
-                {nextGame.regular.length + nextGame.dropIn.length}
+                {nextGame?.regular?.length + nextGame?.dropIn?.length}
               </div>
             </div>
           </div>
@@ -168,7 +204,7 @@ export default function Home() {
                         type="checkbox"
                         className="checkbox checkbox-primary mr-2"
                         value={name}
-                        checked={nextGame.regular.includes(name)}
+                        checked={nextGame?.regular?.includes(name)}
                       />
                       <span className="label-text">{name}</span>
                     </label>
@@ -180,7 +216,7 @@ export default function Home() {
             <div className="mb-2">
               <h2>Drop In</h2>
               <div className="grid grid-cols-3 gap-1">
-                {nextGame.dropIn.map((name) => {
+                {nextGame?.dropIn?.map((name) => {
                   return (
                     <label
                       className="label cursor-pointer justify-start"

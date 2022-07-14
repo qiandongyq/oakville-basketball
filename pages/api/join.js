@@ -10,20 +10,19 @@ if (admin.apps.length === 0) {
 }
 
 // example usage
-export default async function gamesApi(req, res) {
+export default async function JoinApi(req, res) {
+  const { id, user, type } = req.body;
   const db = admin.firestore();
   const pastGames = [];
   await db
     .collection("games")
-    .get()
-    .then((snapshot) => {
-      snapshot.forEach((doc) => {
-        pastGames.push({ ...doc.data(), id: doc.id });
-      });
+    .doc(id)
+    .update({
+      [type]: admin.firestore.FieldValue.arrayUnion(user),
     })
     .catch((err) => {
       console.log("Error getting documents", err);
     });
 
-  res.status(200).json({ pastGames });
+  res.status(200).json({ success: true });
 }
