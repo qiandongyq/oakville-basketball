@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-
+import remove from "just-remove";
 import Players from "../data/players.json";
 import gamesApi from "./api/games";
 
@@ -30,6 +30,10 @@ export default function Home({ nextGame }) {
   let weightedPlayers = Players.weightedPlayers;
   let shooterPlayers = Players.shooterPlayers;
 
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
+
   useEffect(() => {
     let userName = localStorage.getItem("obc-user");
     if (!userName) {
@@ -50,13 +54,32 @@ export default function Home({ nextGame }) {
         body: JSON.stringify({ user, type, id: nextGame.id }),
       });
 
-      setNextGame({ ...nextGame, [type]: [...nextGame[type], user] });
+      refreshData();
+    } catch (err) {
+      // DO NOTHING
+    }
+  }
+
+  async function handleRemove() {
+    try {
+      const type = regularPlayers.includes(user) ? "regular" : "dropIn";
+      await fetch("/api/remove", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user, type, id: nextGame.id }),
+      });
+
+      refreshData();
     } catch (err) {
       // DO NOTHING
     }
   }
 
   if (!nextGame) return null;
+
+  console.log(nextGame);
 
   return (
     <div>
@@ -139,16 +162,18 @@ export default function Home({ nextGame }) {
         nextGame?.regular.includes(user) || nextGame?.dropIn?.includes(user)
       ) ? (
         <section className="mb-10">
-          <button
-            className="btn btn-accent w-full"
-            onClick={() => handleJoin("regular")}
-          >
+          <button className="btn btn-accent w-full" onClick={handleJoin}>
             点击参加下次活动
           </button>
         </section>
       ) : (
         <div className="text-center mb-5">
-          <h1 className="text-secondary">已参加</h1>
+          <button
+            className="btn btn-secondary btn-outline"
+            onClick={handleRemove}
+          >
+            取消参加活动
+          </button>
         </div>
       )}
       <section className="mb-5">
