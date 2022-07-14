@@ -165,6 +165,7 @@ export default function Home() {
               <h2>小弟</h2>
               <div className="grid grid-cols-3 gap-1">
                 {normalPlayers.map((name) => {
+                  const checked = normalPool.includes(name);
                   return (
                     <label
                       className="label cursor-pointer justify-start"
@@ -176,8 +177,15 @@ export default function Home() {
                         value={name}
                         defaultChecked={true}
                         onChange={(e) => toggleNormalPlayer(name)}
+                        checked={checked}
                       />
-                      <span className="label-text">{name}</span>
+                      <span
+                        className={`label-text ${
+                          checked && "text-white font-medium"
+                        }`}
+                      >
+                        {name}
+                      </span>
                     </label>
                   );
                 })}
@@ -188,6 +196,7 @@ export default function Home() {
               <h2>大腿</h2>
               <div className="grid grid-cols-3 gap-1">
                 {weightedPlayers.map((name) => {
+                  const checked = weightedPool.includes(name);
                   return (
                     <label
                       className="label cursor-pointer justify-start"
@@ -199,8 +208,15 @@ export default function Home() {
                         value={name}
                         defaultChecked={true}
                         onChange={(e) => toggleWeightedPlayer(name)}
+                        checked={checked}
                       />
-                      <span className="label-text">{name}</span>
+                      <span
+                        className={`label-text ${
+                          checked && "text-white font-medium"
+                        }`}
+                      >
+                        {name}
+                      </span>
                     </label>
                   );
                 })}
@@ -211,6 +227,7 @@ export default function Home() {
               <h2>3分王</h2>
               <div className="grid grid-cols-3 gap-1">
                 {shooterPlayers.map((name) => {
+                  const checked = shooterPool.includes(name);
                   return (
                     <label
                       className="label cursor-pointer justify-start"
@@ -222,8 +239,15 @@ export default function Home() {
                         value={name}
                         defaultChecked={true}
                         onChange={(e) => toggleShooterPlayer(name)}
+                        checked={checked}
                       />
-                      <span className="label-text">{name}</span>
+                      <span
+                        className={`label-text ${
+                          checked && "text-white font-medium"
+                        }`}
+                      >
+                        {name}
+                      </span>
                     </label>
                   );
                 })}

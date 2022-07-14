@@ -173,6 +173,7 @@ export default function Home({ nextGame }) {
               <h2>常规人员</h2>
               <div className="grid grid-cols-3 gap-1">
                 {regularPlayers.map((name) => {
+                  const checked = nextGame?.regular?.includes(name);
                   return (
                     <label
                       className="label cursor-pointer justify-start"
@@ -182,10 +183,16 @@ export default function Home({ nextGame }) {
                         type="checkbox"
                         className="checkbox checkbox-primary mr-2"
                         value={name}
-                        checked={nextGame?.regular?.includes(name)}
+                        checked={checked}
                         readOnly
                       />
-                      <span className="label-text">{name}</span>
+                      <span
+                        className={`label-text ${
+                          checked && "text-white font-medium"
+                        }`}
+                      >
+                        {name}
+                      </span>
                     </label>
                   );
                 })}
@@ -209,7 +216,9 @@ export default function Home({ nextGame }) {
                         checked={true}
                         readOnly
                       />
-                      <span className="label-text">{name}</span>
+                      <span className="label-text text-white font-medium">
+                        {name}
+                      </span>
                     </label>
                   );
                 })}
