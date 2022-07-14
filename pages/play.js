@@ -4,7 +4,7 @@ import shuffle from "just-shuffle";
 import splitAt from "just-split-at";
 import remove from "just-remove";
 import Link from "next/link";
-import Players from "../public/data/players.json";
+import Players from "../data/players.json";
 
 import basketball from "../public/assets/basketball-ball.png";
 import jerseyWhite from "../public/assets/basketball-jersey-white.png";

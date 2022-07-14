@@ -9,8 +9,7 @@ if (admin.apps.length === 0) {
   });
 }
 
-// example usage
-export default async function gamesApi(req, res) {
+export default async function gamesApi() {
   const db = admin.firestore();
   const pastGames = [];
   await db
@@ -25,5 +24,5 @@ export default async function gamesApi(req, res) {
       console.log("Error getting documents", err);
     });
 
-  res.status(200).json({ pastGames });
+  return pastGames;
 }

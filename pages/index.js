@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import Players from "../public/data/players.json";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+import Players from "../data/players.json";
+import gamesApi from "./api/games";
 
 import basketball from "../public/assets/basketball-ball.png";
 import promote from "../public/assets/promote.png";
@@ -17,11 +20,11 @@ import basketballStrong from "../public/assets/stand.png";
 
 dayjs.extend(weekday);
 dayjs.extend(localizedFormat);
+dayjs.extend(relativeTime);
 
-export default function Home() {
+export default function Home({ nextGame }) {
   const router = useRouter();
   const [user, setUser] = useState("");
-  const [nextGame, setNextGame] = useState(null);
 
   let regularPlayers = Players.regularPlayers;
   let weightedPlayers = Players.weightedPlayers;
@@ -34,31 +37,6 @@ export default function Home() {
     } else {
       setUser(userName);
     }
-  }, []);
-
-  async function getAllGames() {
-    try {
-      const resp = await fetch("/api/games");
-      const data = await resp.json();
-      return data.pastGames;
-    } catch (err) {
-      // DO NOTHING
-    }
-  }
-
-  function getNextGame(games) {
-    return games.find((game) => {
-      return dayjs(game.date).isSame(dayjs().weekday(5), "day");
-    });
-  }
-
-  useEffect(() => {
-    const getGame = async () => {
-      const games = await getAllGames();
-      let nextGame = getNextGame(games);
-      setNextGame(nextGame);
-    };
-    getGame();
   }, []);
 
   async function handleJoin() {
@@ -83,7 +61,7 @@ export default function Home() {
   return (
     <div>
       <section className="text-center w-full mb-5">
-        <span className="text-xl mr-5">Hello</span>
+        <span className="text-xl mr-5">Hi</span>
         <span className="text-2xl text-secondary font-semibold italic underline decoration-sky-500 underline-offset-4">
           {user}
         </span>
@@ -93,10 +71,10 @@ export default function Home() {
         <span className="text-accent">8:30pm - 10:30pm</span>
       </section>
       <section className="mb-5 flex justify-between">
-        <h1>分队尚未开始</h1>
-        <Link href="/play">
-          <a className="link link-accent">随机分队模拟器</a>
-        </Link>
+        <h1>随机分队时间</h1>
+        <span className="font-bold text-secondary">
+          {dayjs().to(dayjs(nextGame.date))}
+        </span>
       </section>
       <section className="grid grid-cols-2 gap-5 mb-5">
         <div className="w-full rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 flex flex-col">
@@ -184,7 +162,7 @@ export default function Home() {
               height={24}
             />
             <div className="flex items-center">
-              <h1 className="mx-2">确认参加人员名单</h1>
+              <h1 className="mx-2">已确认参加人员名单</h1>
               <div className="badge badge-primary">
                 {nextGame?.regular?.length + nextGame?.dropIn?.length}
               </div>
@@ -205,6 +183,7 @@ export default function Home() {
                         className="checkbox checkbox-primary mr-2"
                         value={name}
                         checked={nextGame?.regular?.includes(name)}
+                        readOnly
                       />
                       <span className="label-text">{name}</span>
                     </label>
@@ -228,6 +207,7 @@ export default function Home() {
                         value={name}
                         defaultChecked={true}
                         checked={true}
+                        readOnly
                       />
                       <span className="label-text">{name}</span>
                     </label>
@@ -274,11 +254,25 @@ export default function Home() {
           </div>
         </div>
       </section> */}
+      <section className="w-full text-center mb-5">
+        <Link href="/dropIn">
+          <a className="link link-accent">Drop In 记录</a>
+        </Link>
+      </section>
       <section className="w-full text-center mb-10">
-        <Link href="/dropin">
-          <a className="link link-accent">Drop In History</a>
+        <Link href="/play">
+          <a className="link link-accent">随机分队模拟器</a>
         </Link>
       </section>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const games = await gamesApi();
+  const nextGame = games.find((game) => {
+    return dayjs(game.date).isSame(dayjs().weekday(5), "day");
+  });
+
+  return { props: { nextGame } };
 }

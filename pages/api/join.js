@@ -9,11 +9,9 @@ if (admin.apps.length === 0) {
   });
 }
 
-// example usage
 export default async function JoinApi(req, res) {
   const { id, user, type } = req.body;
   const db = admin.firestore();
-  const pastGames = [];
   await db
     .collection("games")
     .doc(id)
