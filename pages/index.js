@@ -268,7 +268,7 @@ export default function Home({ nextGame }) {
           <a className="link link-accent">Drop In 记录</a>
         </Link>
       </section>
-      <section className="w-full text-center mb-10">
+      <section className="w-full text-center mb-20">
         <Link href="/play">
           <a className="link link-accent">随机分队模拟器</a>
         </Link>
