@@ -249,7 +249,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div>
+            <div className="mb-2">
               <h2>3分王</h2>
               <div className="grid grid-cols-3 gap-1">
                 {shooterPlayers.map((name) => {
