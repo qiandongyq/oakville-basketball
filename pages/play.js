@@ -61,7 +61,7 @@ export default function Home() {
     let flyTeamSplit = splitAt(flyShuffled, flyShuffled.length / 2);
 
     if (team1.length <= team2.length) {
-      team1 = [...team1, flyTeamSplit[1]];
+      team1 = [...team1, ...flyTeamSplit[1]];
       team2 = [...team2, ...flyTeamSplit[0]];
     } else {
       team1 = [...team1, ...flyTeamSplit[0]];
@@ -104,6 +104,20 @@ export default function Home() {
     }
   }
 
+  function getPlayerIcon(name) {
+    let playerIcon = basketball;
+    if (weightedPlayers.includes(name)) {
+      playerIcon = basketballStrong;
+    }
+    if (shooterPlayers.includes(name)) {
+      playerIcon = basketballShooter;
+    }
+    if (flyPlayers.includes(name)) {
+      playerIcon = jordan;
+    }
+    return playerIcon;
+  }
+
   return (
     <div>
       <section className="my-5 flex justify-center">
@@ -125,16 +139,15 @@ export default function Home() {
           <div className="p-3 bg-base-100 m-0.5 rounded-xl flex-1 min-h-16 overflow-hidden">
             <ul>
               {teamBlack.map((name) => {
-                let icon = weightedPlayers.includes(name)
-                  ? basketballStrong
-                  : shooterPlayers.includes(name)
-                  ? basketballShooter
-                  : flyPlayers.includes(name)
-                  ? jordan
-                  : basketball;
+                console.log("getPlayerIcon(name)", name, getPlayerIcon(name));
                 return (
                   <li className={`flex mb-2 animate-slide`} key={name}>
-                    <Image src={icon} alt="team" width={24} height={24} />
+                    <Image
+                      src={getPlayerIcon(name)}
+                      alt="teamBlack"
+                      width={24}
+                      height={24}
+                    />
                     <span className="ml-2">{name}</span>
                   </li>
                 );
@@ -155,17 +168,14 @@ export default function Home() {
           <div className="p-3 bg-base-100 m-0.5 rounded-xl flex-1 overflow-hidden">
             <ul>
               {teamWhite.map((name) => {
-                let icon = weightedPlayers.includes(name)
-                  ? basketballStrong
-                  : shooterPlayers.includes(name)
-                  ? basketballShooter
-                  : flyPlayers.includes(name)
-                  ? jordan
-                  : basketball;
-
                 return (
                   <li className="flex mb-2 animate-slide" key={name}>
-                    <Image src={icon} alt="team" width={24} height={24} />
+                    <Image
+                      src={getPlayerIcon(name)}
+                      alt="teamWhite"
+                      width={24}
+                      height={24}
+                    />
                     <span className="ml-2">{name}</span>
                   </li>
                 );
