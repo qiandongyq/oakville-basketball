@@ -43,6 +43,7 @@ export default async function TeamApi(req, res) {
   let shooterPool = players.filter((player) =>
     Players.shooterPlayers.includes(player)
   );
+  let flyPool = players.filter((player) => Players.flyPlayers.includes(player));
 
   let shuffled = shuffle(normalPool);
   let team = splitAt(shuffled, shuffled.length / 2);
@@ -71,6 +72,17 @@ export default async function TeamApi(req, res) {
   } else {
     teamWhite = [...teamWhite, ...shooterTeamSplit[0]];
     teamBlack = [...teamBlack, ...shooterTeamSplit[1]];
+  }
+
+  let flyShuffled = shuffle(flyPool);
+  let flyTeamSplit = splitAt(flyShuffled, flyShuffled.length / 2);
+
+  if (teamWhite.length <= teamBlack.length) {
+    teamWhite = [...teamWhite, ...flyTeamSplit[1]];
+    teamBlack = [...teamBlack, ...flyTeamSplit[0]];
+  } else {
+    teamWhite = [...teamWhite, ...flyTeamSplit[0]];
+    teamBlack = [...teamBlack, ...flyTeamSplit[1]];
   }
 
   await db

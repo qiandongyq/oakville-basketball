@@ -6,13 +6,12 @@
     "李浩华",
     "陈伟",
     "Fake Dong",
-    "Dong",
     "邓恺",
-    "Terence",
     "陈智"
   ],
   "weightedPlayers": ["William", "Erwin", "Steven"],
   "shooterPlayers": ["Xyu", "JACKY"],
+  "flyPlayers": ["Dong", "Terence"],
   "regularPlayers": [
     "周苏杭",
     "William",

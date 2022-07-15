@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+
 import relativeTime from "dayjs/plugin/relativeTime";
-import remove from "just-remove";
 import Players from "../data/players.json";
 import gamesApi from "./api/games";
 
@@ -17,6 +17,7 @@ import jerseyBlack from "../public/assets/basketball-jersey-black.png";
 import basketballPlayers from "../public/assets/basketball-players.png";
 import basketballShooter from "../public/assets/shooting.png";
 import basketballStrong from "../public/assets/stand.png";
+import jordan from "../public/assets/jordan.png";
 
 dayjs.extend(weekday);
 dayjs.extend(localizedFormat);
@@ -29,6 +30,7 @@ export default function Home({ nextGame }) {
   let regularPlayers = Players.regularPlayers;
   let weightedPlayers = Players.weightedPlayers;
   let shooterPlayers = Players.shooterPlayers;
+  let flyPlayers = Players.flyPlayers;
 
   const refreshData = () => {
     router.replace(router.asPath);
@@ -79,6 +81,9 @@ export default function Home({ nextGame }) {
 
   if (!nextGame) return null;
 
+  const alreadyJoined =
+    nextGame?.regular.includes(user) || nextGame?.dropIn?.includes(user);
+
   return (
     <div>
       <section className="text-center w-full mb-5">
@@ -115,10 +120,12 @@ export default function Home({ nextGame }) {
                   ? basketballStrong
                   : shooterPlayers.includes(name)
                   ? basketballShooter
+                  : flyPlayers.includes(name)
+                  ? jordan
                   : basketball;
                 return (
                   <li className={`flex mb-2 animate-slide`} key={name}>
-                    <Image src={icon} alt="team" />
+                    <Image src={icon} alt="team" width={24} height={24} />
                     <span className="ml-2">{name}</span>
                   </li>
                 );
@@ -143,11 +150,13 @@ export default function Home({ nextGame }) {
                   ? basketballStrong
                   : shooterPlayers.includes(name)
                   ? basketballShooter
+                  : flyPlayers.includes(name)
+                  ? jordan
                   : basketball;
 
                 return (
                   <li className="flex mb-2 animate-slide" key={name}>
-                    <Image src={icon} alt="team" />
+                    <Image src={icon} alt="team" width={24} height={24} />
                     <span className="ml-2">{name}</span>
                   </li>
                 );
@@ -156,23 +165,21 @@ export default function Home({ nextGame }) {
           </div>
         </div>
       </section>
-      {!(
-        nextGame?.regular.includes(user) || nextGame?.dropIn?.includes(user)
-      ) ? (
-        <section className="mb-10">
-          <button className="btn btn-accent w-full" onClick={handleJoin}>
-            点击参加下次活动
-          </button>
+      {dayjs().isBefore(nextGame.date, "day") && (
+        <section className="mb-5 text-center w-full">
+          {alreadyJoined ? (
+            <button
+              className="btn btn-secondary btn-outline"
+              onClick={handleRemove}
+            >
+              取消参加活动
+            </button>
+          ) : (
+            <button className="btn btn-accent w-full" onClick={handleJoin}>
+              点击参加下次活动
+            </button>
+          )}
         </section>
-      ) : (
-        <div className="text-center mb-5">
-          <button
-            className="btn btn-secondary btn-outline"
-            onClick={handleRemove}
-          >
-            取消参加活动
-          </button>
-        </div>
       )}
       <section className="mb-5">
         <div className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
