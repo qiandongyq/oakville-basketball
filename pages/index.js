@@ -79,8 +79,6 @@ export default function Home({ nextGame }) {
 
   if (!nextGame) return null;
 
-  console.log(nextGame);
-
   return (
     <div>
       <section className="text-center w-full mb-5">

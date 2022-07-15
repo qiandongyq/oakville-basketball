@@ -32,8 +32,6 @@ export default async function TeamApi(req, res) {
     return dayjs(game.date).isSame(dayjs().weekday(5), "day");
   });
 
-  console.log("nextGame", nextGame);
-
   const players = [...nextGame.regular, ...nextGame.dropIn];
 
   let normalPool = players.filter((player) =>
@@ -74,9 +72,6 @@ export default async function TeamApi(req, res) {
     teamWhite = [...teamWhite, ...shooterTeamSplit[0]];
     teamBlack = [...teamBlack, ...shooterTeamSplit[1]];
   }
-
-  console.log("teamWhite", teamWhite);
-  console.log("teamBlack", teamBlack);
 
   await db
     .collection("games")
