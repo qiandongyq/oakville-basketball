@@ -13,7 +13,7 @@ export default function DropIn({ pastGames }) {
         return (
           <div
             key={game.id}
-            className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
+            className="mb-2 collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
           >
             <input type="checkbox" />
             <div className="collapse-title flex items-center">

@@ -3,6 +3,9 @@ import Players from "../../data/players.json";
 import shuffle from "just-shuffle";
 import splitAt from "just-split-at";
 import dayjs from "dayjs";
+import weekday from "dayjs/plugin/weekday";
+
+dayjs.extend(weekday);
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 
