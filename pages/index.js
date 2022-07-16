@@ -97,7 +97,7 @@ export default function Home({ nextGame }) {
         <span className="text-accent">8:30pm - 10:30pm</span>
       </section>
       <section className="mb-5 flex justify-between">
-        <h1>随机分队(星期五中午12点)</h1>
+        <h1>星期五12点分队 - 星期天重置</h1>
         <span className="font-bold text-secondary">
           {dayjs().to(dayjs(nextGame.date))}
         </span>
