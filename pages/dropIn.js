@@ -9,7 +9,7 @@ dayjs.extend(localizedFormat);
 export default function DropIn({ seasonGames }) {
   return (
     <div className="">
-      <h1 className="text-accent mb-5">Seasons</h1>
+      <h1 className="text-accent mb-5">联赛赛季</h1>
       {Object.keys(seasonGames).map((key) => {
         const games = seasonGames[key];
         return (
