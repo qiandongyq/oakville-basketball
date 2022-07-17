@@ -96,12 +96,18 @@ export default function Home({ nextGame }) {
         <h1>Next Game: {dayjs(nextGame.date).format("LL")}</h1>
         <span className="text-accent">8:30pm - 10:30pm</span>
       </section>
-      <section className="mb-5 flex justify-between">
-        <h1>星期五12点分队 - 星期天重置</h1>
-        <span className="font-bold text-secondary">
-          {dayjs().to(dayjs(nextGame.date))}
-        </span>
+      <section className="mb-5">
+        <div className="flex justify-between">
+          <h1>星期五12点分队</h1>
+          <span className="font-bold text-secondary">
+            {dayjs().to(dayjs(nextGame.date))}
+          </span>
+        </div>
+        <div className="text-[10px] italic text-gray-500 underline underline-offset-1">
+          星期天重置分队
+        </div>
       </section>
+
       <section className="grid grid-cols-2 gap-5 mb-5">
         <div className="w-full rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 flex flex-col">
           <div className="h-12 w-full flex justify-between items-center text-white px-2">
