@@ -1947,6 +1947,11 @@ jsonwebtoken@^8.5.1:
     array-includes "^3.1.5"
     object.assign "^4.1.2"
 
+just-group-by@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/just-group-by/-/just-group-by-2.0.1.tgz#99371fe043708277fca77f3f1f3a9641583a9286"
+  integrity sha512-ZSrnAbsqNTKZ5M/WUyY6dovi2m1M6OM98eGkkjwXwLxdm4jy4/M6dBYpqlTvhvwbySW2NvsivoR2jSP0YR3qng==
+
 just-remove@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/just-remove/-/just-remove-3.0.1.tgz#a61126250d5bb8bd4bf1268b5f07482bca6f6d55"

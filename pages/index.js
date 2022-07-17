@@ -27,8 +27,6 @@ export default function Home({ nextGame }) {
 
   let regularPlayers = Players.regularPlayers;
   let weightedPlayers = Players.weightedPlayers;
-  let shooterPlayers = Players.shooterPlayers;
-  let flyPlayers = Players.flyPlayers;
 
   const refreshData = () => {
     router.replace(router.asPath);
@@ -77,7 +75,7 @@ export default function Home({ nextGame }) {
     }
   }
 
-  if (!nextGame) return null;
+  if (!nextGame || !user) return null;
 
   const alreadyJoined =
     nextGame?.regular?.includes(user) || nextGame?.dropIn?.includes(user);
@@ -201,7 +199,8 @@ export default function Home({ nextGame }) {
             <div className="flex items-center">
               <h1 className="mx-2">已确认参加人员名单</h1>
               <div className="badge badge-primary">
-                {nextGame?.regular?.length + nextGame?.dropIn?.length || 0}
+                {(nextGame?.regular?.length || 0) +
+                  (nextGame?.dropIn?.length || 0)}
               </div>
             </div>
           </div>

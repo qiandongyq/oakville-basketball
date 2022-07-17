@@ -132,7 +132,6 @@ export default function Home() {
           <div className="p-3 bg-base-100 m-0.5 rounded-xl flex-1 min-h-16 overflow-hidden">
             <ul>
               {teamBlack.map((name) => {
-                console.log("getPlayerIcon(name)", name, getPlayerIcon(name));
                 return (
                   <li className={`flex mb-2 animate-slide`} key={name}>
                     <Image

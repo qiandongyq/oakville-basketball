@@ -2,39 +2,54 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import gamesApi from "./api/games";
+import groupBy from "just-group-by";
 
 dayjs.extend(localizedFormat);
 
-export default function DropIn({ pastGames }) {
+export default function DropIn({ seasonGames }) {
   return (
     <div className="">
-      <h1 className="text-accent mb-5"></h1>
-      {pastGames.map((game) => {
+      <h1 className="text-accent mb-5">Seasons</h1>
+      {Object.keys(seasonGames).map((key) => {
+        const games = seasonGames[key];
         return (
           <div
-            key={game.id}
+            key={key}
             className="mb-2 collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
           >
             <input type="checkbox" />
             <div className="collapse-title flex items-center">
-              <span className="mr-5">{dayjs(game.date).format("LL")}</span>
-              <div className="badge badge-primary mr-10">
-                {game.dropIn?.length}
-              </div>
-              <div className="font-bold text-xl text-accent">
-                Total $ {game.dropIn?.length * 15}
-              </div>
+              <span>{key}</span>
             </div>
             <div className="collapse-content">
-              <p>
-                {game.dropIn?.map((name) => {
-                  return (
-                    <span key={name} className="mr-2 text-secondary">
-                      {name},
-                    </span>
-                  );
-                })}
-              </p>
+              <div className="mb-5">
+                <div className="text-accent mb-3">常规人员</div>
+                {games[0]?.regularTotal}
+              </div>
+              <div className="text-accent mb-1">Drop in 记录</div>
+              {games.map((game) => {
+                let dropInTotal = game?.dropIn?.length || 0;
+                return (
+                  <div
+                    key={game.id}
+                    className="flex justify-between border-b border-spacing-5 border-gray-600 p-2"
+                  >
+                    <div>{dayjs(game.date).format("MMMM D")}</div>
+                    <div>{game?.dropIn?.toString()}</div>
+                    <div>${dropInTotal * 15}</div>
+                  </div>
+                );
+              })}
+              <div className="text-right mt-5 px-2 font-bold text-xl">
+                Total:{" "}
+                <span className="ml-1">
+                  ${" "}
+                  {games.reduce(
+                    (acc, curr) => (acc += (curr?.dropIn?.length || 0) * 15),
+                    0
+                  )}
+                </span>
+              </div>
             </div>
           </div>
         );
@@ -55,5 +70,7 @@ export async function getServerSideProps() {
     return dayjs().isAfter(dayjs(game.date));
   });
 
-  return { props: { pastGames } };
+  let seasonGames = groupBy(pastGames, (game) => game.season);
+
+  return { props: { seasonGames } };
 }
