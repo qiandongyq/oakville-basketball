@@ -10,14 +10,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import Players from "../data/players.json";
 import gamesApi from "./api/games";
 
-import basketball from "../public/assets/basketball-ball.png";
+import basketball from "../public/assets/ball2.png";
+import basketballStrong from "../public/assets/ball.png";
 import promote from "../public/assets/promote.png";
 import jerseyWhite from "../public/assets/basketball-jersey-white.png";
 import jerseyBlack from "../public/assets/basketball-jersey-black.png";
 import basketballPlayers from "../public/assets/basketball-players.png";
-import basketballShooter from "../public/assets/shooting.png";
-import basketballStrong from "../public/assets/stand.png";
-import jordan from "../public/assets/jordan.png";
 
 dayjs.extend(weekday);
 dayjs.extend(localizedFormat);
@@ -84,6 +82,14 @@ export default function Home({ nextGame }) {
   const alreadyJoined =
     nextGame?.regular.includes(user) || nextGame?.dropIn?.includes(user);
 
+  function getPlayerIcon(name) {
+    let playerIcon = basketball;
+    if (weightedPlayers.includes(name)) {
+      playerIcon = basketballStrong;
+    }
+    return playerIcon;
+  }
+
   return (
     <div>
       <section className="text-center w-full mb-5">
@@ -122,16 +128,14 @@ export default function Home({ nextGame }) {
           <div className="p-3 bg-base-100 m-0.5 rounded-xl flex-1 min-h-16 overflow-hidden">
             <ul>
               {nextGame?.teamBlack?.map((name) => {
-                let icon = weightedPlayers.includes(name)
-                  ? basketballStrong
-                  : shooterPlayers.includes(name)
-                  ? basketballShooter
-                  : flyPlayers.includes(name)
-                  ? jordan
-                  : basketball;
                 return (
                   <li className={`flex mb-2 animate-slide`} key={name}>
-                    <Image src={icon} alt="team" width={24} height={24} />
+                    <Image
+                      src={getPlayerIcon(name)}
+                      alt="team"
+                      width={24}
+                      height={24}
+                    />
                     <span className="ml-2">{name}</span>
                   </li>
                 );
@@ -152,17 +156,14 @@ export default function Home({ nextGame }) {
           <div className="p-3 bg-base-100 m-0.5 rounded-xl flex-1 overflow-hidden">
             <ul>
               {nextGame?.teamWhite?.map((name) => {
-                let icon = weightedPlayers.includes(name)
-                  ? basketballStrong
-                  : shooterPlayers.includes(name)
-                  ? basketballShooter
-                  : flyPlayers.includes(name)
-                  ? jordan
-                  : basketball;
-
                 return (
                   <li className="flex mb-2 animate-slide" key={name}>
-                    <Image src={icon} alt="team" width={24} height={24} />
+                    <Image
+                      src={getPlayerIcon(name)}
+                      alt="team"
+                      width={24}
+                      height={24}
+                    />
                     <span className="ml-2">{name}</span>
                   </li>
                 );

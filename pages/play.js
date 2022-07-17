@@ -6,13 +6,11 @@ import remove from "just-remove";
 import Link from "next/link";
 import Players from "../data/players.json";
 
-import basketball from "../public/assets/basketball-ball.png";
+import basketball from "../public/assets/ball2.png";
+import basketballStrong from "../public/assets/ball.png";
 import jerseyWhite from "../public/assets/basketball-jersey-white.png";
 import jerseyBlack from "../public/assets/basketball-jersey-black.png";
 import basketballPlayers from "../public/assets/basketball-players.png";
-import basketballShooter from "../public/assets/shooting.png";
-import basketballStrong from "../public/assets/stand.png";
-import jordan from "../public/assets/jordan.png";
 
 export default function Home() {
   let normalPlayers = Players.normalPlayers;
@@ -32,19 +30,6 @@ export default function Home() {
     let team = splitAt(shuffled, shuffled.length / 2);
     let team1 = team[1];
     let team2 = team[0];
-    let weightPoolShuffled = shuffle(weightedPool);
-    let weightTeamSplit = splitAt(
-      weightPoolShuffled,
-      weightPoolShuffled.length / 2
-    );
-
-    if (team1.length <= team2.length) {
-      team1 = [...team1, ...weightTeamSplit[1]];
-      team2 = [...team2, ...weightTeamSplit[0]];
-    } else {
-      team1 = [...team1, ...weightTeamSplit[0]];
-      team2 = [...team2, ...weightTeamSplit[1]];
-    }
 
     let shooterShuffled = shuffle(shooterPool);
     let shooterTeamSplit = splitAt(shooterShuffled, shooterShuffled.length / 2);
@@ -66,6 +51,20 @@ export default function Home() {
     } else {
       team1 = [...team1, ...flyTeamSplit[0]];
       team2 = [...team2, ...flyTeamSplit[1]];
+    }
+
+    let weightPoolShuffled = shuffle(weightedPool);
+    let weightTeamSplit = splitAt(
+      weightPoolShuffled,
+      weightPoolShuffled.length / 2
+    );
+
+    if (team1.length <= team2.length) {
+      team1 = [...team1, ...weightTeamSplit[1]];
+      team2 = [...team2, ...weightTeamSplit[0]];
+    } else {
+      team1 = [...team1, ...weightTeamSplit[0]];
+      team2 = [...team2, ...weightTeamSplit[1]];
     }
 
     setTeamBlack(team1);
@@ -108,12 +107,6 @@ export default function Home() {
     let playerIcon = basketball;
     if (weightedPlayers.includes(name)) {
       playerIcon = basketballStrong;
-    }
-    if (shooterPlayers.includes(name)) {
-      playerIcon = basketballShooter;
-    }
-    if (flyPlayers.includes(name)) {
-      playerIcon = jordan;
     }
     return playerIcon;
   }

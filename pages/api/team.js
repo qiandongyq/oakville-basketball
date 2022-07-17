@@ -52,19 +52,6 @@ export default async function TeamApi(req, res) {
   let team = splitAt(shuffled, shuffled.length / 2);
   let teamWhite = team[0];
   let teamBlack = team[1];
-  let weightPoolShuffled = shuffle(weightedPool);
-  let weightTeamSplit = splitAt(
-    weightPoolShuffled,
-    weightPoolShuffled.length / 2
-  );
-
-  if (teamWhite.length <= teamBlack.length) {
-    teamWhite = [...teamWhite, ...weightTeamSplit[1]];
-    teamBlack = [...teamBlack, ...weightTeamSplit[0]];
-  } else {
-    teamWhite = [...teamWhite, ...weightTeamSplit[0]];
-    teamBlack = [...teamBlack, ...weightTeamSplit[1]];
-  }
 
   let shooterShuffled = shuffle(shooterPool);
   let shooterTeamSplit = splitAt(shooterShuffled, shooterShuffled.length / 2);
@@ -86,6 +73,20 @@ export default async function TeamApi(req, res) {
   } else {
     teamWhite = [...teamWhite, ...flyTeamSplit[0]];
     teamBlack = [...teamBlack, ...flyTeamSplit[1]];
+  }
+
+  let weightPoolShuffled = shuffle(weightedPool);
+  let weightTeamSplit = splitAt(
+    weightPoolShuffled,
+    weightPoolShuffled.length / 2
+  );
+
+  if (teamWhite.length <= teamBlack.length) {
+    teamWhite = [...teamWhite, ...weightTeamSplit[1]];
+    teamBlack = [...teamBlack, ...weightTeamSplit[0]];
+  } else {
+    teamWhite = [...teamWhite, ...weightTeamSplit[0]];
+    teamBlack = [...teamBlack, ...weightTeamSplit[1]];
   }
 
   await db
