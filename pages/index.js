@@ -80,7 +80,7 @@ export default function Home({ nextGame }) {
   if (!nextGame) return null;
 
   const alreadyJoined =
-    nextGame?.regular.includes(user) || nextGame?.dropIn?.includes(user);
+    nextGame?.regular?.includes(user) || nextGame?.dropIn?.includes(user);
 
   function getPlayerIcon(name) {
     let playerIcon = basketball;
@@ -201,7 +201,7 @@ export default function Home({ nextGame }) {
             <div className="flex items-center">
               <h1 className="mx-2">已确认参加人员名单</h1>
               <div className="badge badge-primary">
-                {nextGame?.regular?.length + nextGame?.dropIn?.length}
+                {nextGame?.regular?.length + nextGame?.dropIn?.length || 0}
               </div>
             </div>
           </div>
