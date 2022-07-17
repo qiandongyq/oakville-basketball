@@ -206,7 +206,7 @@ export default function Home({ nextGame }) {
           </div>
           <div className="collapse-content">
             <div className="mb-2">
-              <h2>常规人员</h2>
+              <h2 className="font-semibold">常规人员</h2>
               <div className="grid grid-cols-3 gap-1">
                 {regularPlayers.map((name) => {
                   const checked = nextGame?.regular?.includes(name);
@@ -236,7 +236,7 @@ export default function Home({ nextGame }) {
             </div>
 
             <div className="mb-2">
-              <h2>Drop In</h2>
+              <h2 className="font-semibold">Drop In</h2>
               <div className="grid grid-cols-3 gap-1">
                 {nextGame?.dropIn?.map((name) => {
                   return (
