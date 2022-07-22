@@ -77,8 +77,6 @@ export default function Home({ nextGame }) {
 
   if (!nextGame || !user) return null;
 
-  console.log("nextGame", nextGame);
-
   const alreadyJoined =
     nextGame?.regular?.includes(user) || nextGame?.dropIn?.includes(user);
 
