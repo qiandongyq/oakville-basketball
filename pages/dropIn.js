@@ -12,6 +12,10 @@ export default function DropIn({ seasonGames }) {
       <h1 className="text-accent mb-5">联赛赛季</h1>
       {Object.keys(seasonGames).map((key) => {
         const games = seasonGames[key];
+        const dropInTotal = games.reduce(
+          (acc, curr) => (acc += curr?.dropIn?.length || 0),
+          0
+        );
         return (
           <div
             key={key}
@@ -27,28 +31,25 @@ export default function DropIn({ seasonGames }) {
                 {games[0]?.regularTotal}
               </div>
               <div className="text-accent mb-1">Drop in 记录</div>
-              {games.map((game) => {
-                let dropInTotal = game?.dropIn?.length || 0;
-                return (
-                  <div
-                    key={game.id}
-                    className="flex justify-between border-b border-spacing-5 border-gray-600 p-2"
-                  >
-                    <div>{dayjs(game.date).format("MMMM D")}</div>
-                    <div>{game?.dropIn?.toString()}</div>
-                    <div>${dropInTotal * 15}</div>
-                  </div>
-                );
-              })}
+              {games
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .map((game) => {
+                  const gameDropInCount = game?.dropIn?.length || 0;
+                  return (
+                    <div
+                      key={game.id}
+                      className="flex justify-between border-b border-spacing-5 border-gray-600 p-2"
+                    >
+                      <div>{dayjs(game.date).format("MMMM D")}</div>
+                      <div>{game?.dropIn?.toString()}</div>
+                      <div>${gameDropInCount * 15}</div>
+                    </div>
+                  );
+                })}
               <div className="text-right mt-5 px-2 font-bold text-xl">
-                Total:{" "}
-                <span className="ml-1">
-                  ${" "}
-                  {games.reduce(
-                    (acc, curr) => (acc += (curr?.dropIn?.length || 0) * 15),
-                    0
-                  )}
-                </span>
+                <span>Total: </span>
+                <span>{dropInTotal} * 15 = </span>
+                <span className="text-2xl">$ {dropInTotal * 15}</span>
               </div>
             </div>
           </div>
