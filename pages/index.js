@@ -170,7 +170,7 @@ export default function Home({ nextGame }) {
           </div>
         </div>
       </section>
-      {dayjs().isBefore(nextGame.date, "hour") && (
+      {dayjs().isBefore(nextGame.date, "hour") ? (
         <section className="mb-5 text-center w-full">
           {alreadyJoined ? (
             <button
@@ -185,6 +185,8 @@ export default function Home({ nextGame }) {
             </button>
           )}
         </section>
+      ) : (
+        <section className="mb-5 text-center w-full">报名已截止</section>
       )}
       <section className="mb-5">
         <div className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
