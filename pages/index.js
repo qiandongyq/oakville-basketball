@@ -77,6 +77,8 @@ export default function Home({ nextGame }) {
 
   if (!nextGame || !user) return null;
 
+  console.log("nextGame", nextGame);
+
   const alreadyJoined =
     nextGame?.regular?.includes(user) || nextGame?.dropIn?.includes(user);
 
@@ -170,7 +172,7 @@ export default function Home({ nextGame }) {
           </div>
         </div>
       </section>
-      {dayjs().isBefore(nextGame.date, "day") && (
+      {dayjs().isBefore(nextGame.date, "hour") && (
         <section className="mb-5 text-center w-full">
           {alreadyJoined ? (
             <button
